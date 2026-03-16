@@ -1,6 +1,6 @@
 # Jasper's Market WhatsApp Bot
 
-Jasper's Market is a fictional grocery brand created to showcase key features of the WhatsApp Business Platform. The bot leverages key features to deliver a great customer experience. Using this demo as inspiration, you can create a delightful WhatsApp experience that leverages both automation and live customer support.
+O Mercado do Jasper é uma marca fictícia de supermercado criada para demonstrar os principais recursos da plataforma WhatsApp Business. O bot utiliza esses recursos para proporcionar uma ótima experiência ao cliente. Usando esta demonstração como inspiração, você pode criar uma experiência agradável no WhatsApp que combine automação e suporte ao cliente em tempo real.
 
 [Access the WhatsApp experience](https://wa.me/15558813169?text=Get+started)
 
@@ -17,8 +17,7 @@ See the [Developer Documentation on this experience](https://developers.facebook
 
 ## Setup Steps
 
-Before you begin, make sure you have completed all of the requirements listed above. At this point you should have a Business and a registered Meta App.
-
+Antes de começar, certifique-se de ter cumprido todos os requisitos listados acima. Neste ponto, você já deve ter uma Empresa e um Aplicativo Meta registrado.
 #### Get the App id, App Secret, App Token, and Waba id
 
 1. Go to your app Basic Settings, [Find your app here](https://developers.facebook.com/apps)
@@ -53,7 +52,8 @@ You will need:
 ## Using ngrok
 
 #### 1. Setup templates
-In order for the app to send templated messages, you need to first create those templates under your WhatsApp Business Account. You can either do this by running `./template.sh` or through [WhatsApp Manager](https://business.facebook.com/latest/whatsapp_manager/message_templates).
+Para que o aplicativo envie mensagens com modelos predefinidos, você precisa primeiro criar esses modelos na sua conta do WhatsApp Business. Você pode fazer isso executando o seguinte comando:
+`./template.sh` or through [WhatsApp Manager](https://business.facebook.com/latest/whatsapp_manager/message_templates).
 
 #### 2. Install Redis
 If not already installed, install redis via [download](https://redis.io/docs/latest/operate/oss_and_stack/install/install-stack/).
@@ -69,7 +69,7 @@ redis-server --daemonize yes
 If not already installed, install ngrok via [download](https://ngrok.com/download) or via command line:
 
 ```bash
-npm install -g ngrok
+ngrok http 8000
 ```
 
 In the directory of this repo, request a tunnel to your local server with your preferred port
@@ -129,11 +129,11 @@ Use the `VERIFY_TOKEN` that you created in `.env` file and subscribe your webhoo
 
 #### 8. Test that your app setup is successful
 
-Send a message to your WhatsApp Business Account from a consumer WhatsApp number.
+Envie uma mensagem para sua conta do WhatsApp Business a partir de um número de WhatsApp pessoal.
 
-You should see the webhook called in the ngrok terminal tab, and in your application terminal tab.
+Você deverá ver o webhook chamado na aba do terminal do ngrok e na aba do terminal do seu aplicativo.
 
-If you see a response to your message in WhatsApp, you have fully set up your app! Voilà!
+Se você receber uma resposta à sua mensagem no WhatsApp, seu aplicativo está totalmente configurado! Voilà!
 
 ## License
 
