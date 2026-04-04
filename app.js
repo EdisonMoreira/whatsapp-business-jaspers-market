@@ -15,10 +15,12 @@ const express = require('express');
 
 const config = require('./services/config');
 const Conversation = require('./services/conversation');
+// eslint-disable-next-line no-unused-vars
 const Message = require('./services/message');
 const app = express();
 
 // Parse application/x-www-form-urlencoded
+
 app.use(
   urlencoded({
     extended: true

@@ -1,4 +1,3 @@
-<script>
   window.fbAsyncInit = function() {
     FB.init({
       appId      : '177181987711506',
@@ -18,4 +17,3 @@
      js.src = "https://connect.facebook.net/en_US/sdk.js";
      fjs.parentNode.insertBefore(js, fjs);
    }(document, 'script', 'facebook-jssdk'));
-</script>
