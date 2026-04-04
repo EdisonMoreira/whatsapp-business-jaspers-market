@@ -19,6 +19,11 @@ const Conversation = require('./services/conversation');
 const Message = require('./services/message');
 const app = express();
 
+app.use((req, res, next) => {
+  res.setHeader('ngrok-skip-browser-warning', 'true');
+  next();
+});
+
 // Parse application/x-www-form-urlencoded
 
 app.use(

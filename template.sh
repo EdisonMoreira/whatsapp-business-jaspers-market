@@ -5,10 +5,10 @@
 # This source code is licensed under the BSD-style license found in the
 # LICENSE file in the root directory of this source tree.
 
-APPTOKEN="<APP_TOKEN>"
-APPID="<APP_ID>"
-WABAID="<WABA_ID>"
-APIVERSION="<CLOUD_API_VERSION>"
+APPID="1754584878304594"
+APPTOKEN="EAAY7ySBmTVIBRNLcIJo5coLJCy5N1CUaYXpsjZCMQeU0iYnvFj7mcSj8eAxX1cvOkskprq7UD7HVXctJaOnZC0MlmGyoJ7iGbCWq5DiHAOkyr2O36XaIEAzKTdjZAlTCCazboDwe6o2qd3otjVUaXFChAgmMRaGVkWP2Uf35JWLC13NO2sQjZAjOIm5ZA3oXRA0zGDxYaAWf5JDxv6CXWagdtHde6QPok09YhsXMUvZAcwvfFZBoOlw3apkEjNGzcaFJSo2Mp4sZALGY6Sv1N7DH"
+WABAID="117023744760526"
+APIVERSION="v22.0"
 
 echo "Downloading image assets from Meta"
 mkdir public

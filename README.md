@@ -16,7 +16,7 @@ See the [Developer Documentation on this experience](https://developers.facebook
 
 - **Meta Business:* TENHO* This is a pre-requisite for building with WhatsApp. If you don't have a business, you can create one in the app creation flow.
 
-- **WhatsApp Business Account:* AINDA NÂO* This is needed to send and receive messages in WhatsApp. To create a new WhatsApp Business account, visit [Meta Business Suite](https://business.facebook.com/latest).
+- **WhatsApp Business Account:* Ainda não foi reconhecido pelo ambiente Whatapp bussiness * This is needed to send and receive messages in WhatsApp. To create a new WhatsApp Business account, visit [Meta Business Suite](https://business.facebook.com/latest).
 
 ## Setup Steps
 
@@ -25,7 +25,8 @@ Antes de começar, certifique-se de ter cumprido todos os requisitos listados ac
 ### Get the App id, App Secret, App Token, and Waba id
 
 1. Go to your app Basic Settings, [Find your app here](https://developers.facebook.com/apps)
-2. Save the **App ID** number 177181987711506 and the **App Secret**
+2. Save the **App ID** AprenderSempre Teste1 number 1754584878304594 and the **App Secret**
+2.1 Save the **App ID** AprenderSempre number 177181987711506 and the **App Secret**
 3. Go to your Business in Meta Business Suite and find your desired WhatsApp Business Account under the WhatsApp tab.re
 4. Save the **Waba ID**
 5. Create a system user token for your app. Save this **App token**. [Find instructions here](https://developers.facebook.com/documentation/business-messaging/whatsapp/get-started#1--acquire-an-access-token-using-a-system-user-or-facebook-login)
