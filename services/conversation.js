@@ -8,6 +8,7 @@
 "use strict";
 
 const constants = require("./constants");
+// eslint-disable-next-line no-unused-vars
 const config = require("./config");
 const GraphApi = require('./graph-api');
 const Message = require('./message');
@@ -96,6 +97,7 @@ module.exports = class Conversation {
 
     switch (message.type) {
       case constants.REPLY_INTERACTIVE_MEDIA_ID:
+      {
         let interactiveMediaResponse = await sendInteractiveMediaMessage(
           message.id,
           senderPhoneNumberId,
@@ -103,7 +105,9 @@ module.exports = class Conversation {
         );
         await markMessageForFollowUp(interactiveMediaResponse.messages[0].id);
         break;
+      }
       case constants.REPLY_MEDIA_CAROUSEL_ID:
+      {  
         let mediaCarouselResponse = await sendMediaCarouselMessage(
           message.id,
           senderPhoneNumberId,
@@ -111,7 +115,9 @@ module.exports = class Conversation {
         );
         await markMessageForFollowUp(mediaCarouselResponse.messages[0].id);
         break;
+      }  
       case constants.REPLY_OFFER_ID:
+      {  
         let ltoResponse = await sendLimitedTimeOfferMessage(
           message.id,
           senderPhoneNumberId,
@@ -119,6 +125,8 @@ module.exports = class Conversation {
         );
         await markMessageForFollowUp(ltoResponse.messages[0].id);
         break;
+      }  
+      
       default:
         sendTryOutDemoMessage(
           message.id,
