@@ -1,0 +1,39 @@
+{
+    "object": "whatsapp_business_account",
+    "entry": [
+        {
+            "id": "117023744760526",
+            "changes": [
+                {
+                    "value": {
+                        "messaging_product": "whatsapp",
+                        "metadata": {
+                            "display_phone_number": "15550369197",
+                            "phone_number_id": "107164345759376"
+                        },
+                        "contacts": [
+                            {
+                                "profile": {
+                                    "name": "Edison Moreira"
+                                },
+                                "wa_id": "5521988991807"
+                            }
+                        ],
+                        "messages": [
+                            {
+                                "from": "5521988991807",
+                                "id": "wamid.HBgNNTUyMTk4ODk5MTgwNxUCABIYIEFDMzFCODgzQ0JCN0UyNUJBNzk3QkUwOTdDREJCQURBAA==",
+                                "timestamp": "1776176691",
+                                "text": {
+                                    "body": "oi"
+                                },
+                                "type": "text"
+                            }
+                        ]
+                    },
+                    "field": "messages"
+                }
+            ]
+        }
+    ]
+}

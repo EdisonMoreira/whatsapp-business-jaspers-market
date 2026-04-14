@@ -1,0 +1,38 @@
+{
+    "object": "whatsapp_business_account",
+    "entry": [
+        {
+            "id": "117023744760526",
+            "changes": [
+                {
+                    "value": {
+                        "messaging_product": "whatsapp",
+                        "metadata": {
+                            "display_phone_number": "15550369197",
+                            "phone_number_id": "107164345759376"
+                        },
+                        "statuses": [
+                            {
+                                "id": "wamid.HBgNNTUyMTk4ODk5MTgwNxUCABEYEjAyMkZFMDJDNjNCRjNERDdBNAA=",
+                                "status": "failed",
+                                "timestamp": "1776177020",
+                                "recipient_id": "5521988991807",
+                                "errors": [
+                                    {
+                                        "code": 131053,
+                                        "title": "Media upload error",
+                                        "message": "Media upload error",
+                                        "error_data": {
+                                            "details": "Your server hosting media content did not respond back in time. For better performance with links learn more about Media HTTP Caching under the error code section for Media upload error"
+                                        }
+                                    }
+                                ]
+                            }
+                        ]
+                    },
+                    "field": "messages"
+                }
+            ]
+        }
+    ]
+}

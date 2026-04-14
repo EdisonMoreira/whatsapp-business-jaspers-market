@@ -1,118 +1,128 @@
-/**
- * Copyright 2021-present, Facebook, Inc. All rights reserved.
- *
- * This source code is licensed under the BSD-style license found in the
- * LICENSE file in the root directory of this source tree.
- */
-
 "use strict";
 
-const crypto = require('crypto');
+const crypto = require("crypto");
+const { urlencoded, json } = require("body-parser");
+require("dotenv").config();
+const express = require("express");
 
-const { urlencoded, json } = require('body-parser');
-require('dotenv').config();
-const express = require('express');
+const config = require("./services/config");
+const Conversation = require("./services/conversation");
 
-const config = require('./services/config');
-const Conversation = require('./services/conversation');
-// eslint-disable-next-line no-unused-vars
-const Message = require('./services/message');
 const app = express();
 
+// ---------------------------------------------------------------------------
+// Captura rejeicoes nao tratadas ANTES que o SDK do Facebook as intercepte.
+// Sem isso, erros de API (ex: token expirado) derrubam o processo inteiro.
+// ---------------------------------------------------------------------------
+process.on("unhandledRejection", (reason) => {
+  console.error("Unhandled rejection (processo mantido):", reason?.message ?? reason);
+});
+
+process.on("uncaughtException", (err) => {
+  if (err.code === "EADDRINUSE") {
+    console.error(`Porta ${config.port} em uso. Rode: pkill -f "node app.js"`);
+    process.exit(1);
+  }
+  console.error("Uncaught exception (processo mantido):", err.message);
+});
+
+// ---------------------------------------------------------------------------
+// Middlewares
+// ---------------------------------------------------------------------------
 app.use((req, res, next) => {
-  res.setHeader('ngrok-skip-browser-warning', 'true');
+  res.setHeader("ngrok-skip-browser-warning", "true");
   next();
 });
 
-// Parse application/x-www-form-urlencoded
-
-app.use(
-  urlencoded({
-    extended: true
-  })
-);
-
-// Parse application/json. Verify that callback came from Facebook
+app.use(urlencoded({ extended: true }));
 app.use(json({ verify: verifyRequestSignature }));
 
-// Handle webhook verification handshake
-app.get("/webhook", function (req, res) {
+// ---------------------------------------------------------------------------
+// Webhook verification (GET)
+// ---------------------------------------------------------------------------
+app.get("/webhook", (req, res) => {
   if (
-    req.query["hub.mode"] != "subscribe" ||
-    req.query["hub.verify_token"] != config.verifyToken
+    req.query["hub.mode"] !== "subscribe" ||
+    req.query["hub.verify_token"] !== config.verifyToken
   ) {
     res.sendStatus(403);
     return;
   }
-
   res.send(req.query["hub.challenge"]);
 });
 
-// Handle incoming messages
-app.post('/webhook', (req, res) => {
-  console.log(req.body);
+// ---------------------------------------------------------------------------
+// Webhook de mensagens (POST)
+// ---------------------------------------------------------------------------
+app.post("/webhook", (req, res) => {
+  console.log(JSON.stringify(req.body, null, 2));
 
-  if (req.body.object === "whatsapp_business_account") {
-    req.body.entry.forEach(entry => {
-      entry.changes.forEach(change => {
-        const value = change.value;
-        if (value) {
-          const senderPhoneNumberId = value.metadata.phone_number_id;
+  // Responde 200 imediatamente — obrigatorio pela Meta (timeout de 20s)
+  res.status(200).send("EVENT_RECEIVED");
 
-          if (value.statuses) {
-            value.statuses.forEach(status => {
-              // Handle message status updates
-              Conversation.handleStatus(senderPhoneNumberId, status);
-            });
-          }
+  if (req.body.object !== "whatsapp_business_account") return;
 
-          if (value.messages) {
-            value.messages.forEach(rawMessage => {
-              // Respond to message
-              Conversation.handleMessage(senderPhoneNumberId, rawMessage);
-            });
-          }
-        }
-      });
+  req.body.entry.forEach((entry) => {
+    entry.changes.forEach((change) => {
+      const value = change.value;
+      if (!value) return;
+
+      const senderPhoneNumberId = value.metadata.phone_number_id;
+
+      if (value.statuses) {
+        value.statuses.forEach((status) =>
+          Conversation.handleStatus(senderPhoneNumberId, status).catch((err) =>
+            console.error("handleStatus error:", err.message)
+          )
+        );
+      }
+
+      if (value.messages) {
+        value.messages.forEach((rawMessage) =>
+          Conversation.handleMessage(senderPhoneNumberId, rawMessage).catch((err) =>
+            console.error("handleMessage error:", err.message)
+          )
+        );
+      }
     });
-  }
-
-  res.status(200).send('EVENT_RECEIVED');
-});
-
-// Default route for health check
-app.get('/', (req, res) => {
-  res.json({
-    message: 'Jasper\'s Market Server is running',
-    endpoints: [
-      'POST /webhook - WhatsApp webhook endpoint'
-    ]
   });
 });
 
-// Check if all environment variables are set
+// ---------------------------------------------------------------------------
+// Health check
+// ---------------------------------------------------------------------------
+app.get("/", (req, res) => {
+  res.json({
+    message: "Jasper's Market Server is running",
+    endpoints: ["POST /webhook - WhatsApp webhook endpoint"],
+  });
+});
+
+// ---------------------------------------------------------------------------
+// Start
+// ---------------------------------------------------------------------------
 config.checkEnvVariables();
 
-// Verify that the callback came from Facebook.
-function verifyRequestSignature(req, res, buf) {
-  let signature = req.headers["x-hub-signature-256"];
-
-  if (!signature) {
-    console.warn(`Couldn't find "x-hub-signature-256" in headers.`);
-  } else {
-    let elements = signature.split("=");
-    let signatureHash = elements[1];
-    let expectedHash = crypto
-      .createHmac("sha256", config.appSecret)
-      .update(buf)
-      .digest("hex");
-    if (signatureHash != expectedHash) {
-      throw new Error("Couldn't validate the request signature.");
-    }
-  }
-}
-
-
-var listener = app.listen(config.port, () => {
+const listener = app.listen(config.port, () => {
   console.log(`The app is listening on port ${listener.address().port}`);
 });
+
+// ---------------------------------------------------------------------------
+// Verificacao de assinatura HMAC
+// ---------------------------------------------------------------------------
+function verifyRequestSignature(req, res, buf) {
+  const signature = req.headers["x-hub-signature-256"];
+  if (!signature) {
+    console.warn('Aviso: header "x-hub-signature-256" ausente.');
+    return;
+  }
+  const signatureHash = signature.split("=")[1];
+  const expectedHash = crypto
+    .createHmac("sha256", config.appSecret)
+    .update(buf)
+    .digest("hex");
+
+  if (signatureHash !== expectedHash) {
+    throw new Error("Assinatura da requisicao invalida.");
+  }
+}

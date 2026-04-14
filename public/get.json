@@ -1,0 +1,6 @@
+{
+    "message": "Jasper's Market Server is running",
+    "endpoints": [
+        "POST /webhook - WhatsApp webhook endpoint"
+    ]
+}

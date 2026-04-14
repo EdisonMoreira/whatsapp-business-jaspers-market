@@ -148,6 +148,3 @@ See the [CONTRIBUTING](CONTRIBUTING.md) file for how to help out.
 
 Terms of Use - <https://opensource.facebook.com/legal/terms>
 Privacy Policy - <https://opensource.facebook.com/legal/privacy>
-
-
-
