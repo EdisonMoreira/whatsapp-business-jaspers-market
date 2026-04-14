@@ -16,7 +16,7 @@ See the [Developer Documentation on this experience](https://developers.facebook
 
 - **Meta Business:* TENHO* This is a pre-requisite for building with WhatsApp. If you don't have a business, you can create one in the app creation flow.
 
-- **WhatsApp Business Account:* Ainda não foi reconhecido pelo ambiente Whatapp bussiness * This is needed to send and receive messages in WhatsApp. To create a new WhatsApp Business account, visit [Meta Business Suite](https://business.facebook.com/latest).
+- **WhatsApp Business Account:* Ainda não foi reconhecido pelo ambiente Whatapp bussiness* This is needed to send and receive messages in WhatsApp. To create a new WhatsApp Business account, visit [Meta Business Suite](https://business.facebook.com/latest).
 
 ## Setup Steps
 
@@ -148,3 +148,6 @@ See the [CONTRIBUTING](CONTRIBUTING.md) file for how to help out.
 
 Terms of Use - <https://opensource.facebook.com/legal/terms>
 Privacy Policy - <https://opensource.facebook.com/legal/privacy>
+
+
+
