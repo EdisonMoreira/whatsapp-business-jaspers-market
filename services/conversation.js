@@ -10,32 +10,30 @@ const Cache = require("./redis");
 // Helpers de envio
 // ---------------------------------------------------------------------------
 
-function sendWelcomeMenu(messageId, senderPhoneNumberId, recipientPhoneNumber, bodyText) {
+function sendMenuPrincipal(messageId, senderPhoneNumberId, recipientPhoneNumber, bodyText) {
   return GraphApi.messageWithInteractiveReply(
     messageId,
     senderPhoneNumberId,
     recipientPhoneNumber,
     bodyText,
     [
-      { id: constants.REPLY_INTERACTIVE_MEDIA_ID, title: constants.REPLY_INTERACTIVE_WITH_MEDIA_CTA },
-      { id: constants.REPLY_MEDIA_CAROUSEL_ID,    title: constants.REPLY_MEDIA_CARD_CAROUSEL_CTA },
-      { id: constants.REPLY_OFFER_ID,             title: constants.REPLY_OFFER_CTA },
+      { id: constants.ID_OPCAO_1, title: constants.CTA_OPCAO_1 },
+      { id: constants.ID_OPCAO_2, title: constants.CTA_OPCAO_2 },
+      { id: constants.ID_OPCAO_3, title: constants.CTA_OPCAO_3 },
     ]
   );
 }
 
-function sendInteractiveMediaMessage(messageId, senderPhoneNumberId, recipientPhoneNumber) {
-  return GraphApi.messageWithUtilityTemplate(
+async function handleOpcao1(messageId, senderPhoneNumberId, recipientPhoneNumber) {
+  // Opção 1: envia imagem do catálogo + texto
+  // SUBSTITUA a URL pela sua imagem hospedada no GCP ou ngrok
+  return GraphApi.sendImageMessage(
     messageId,
     senderPhoneNumberId,
     recipientPhoneNumber,
-    {
-      templateName: "grocery_delivery_utility",
-      locale: "en_US",
-      // Prefira MEDIA_ID_GROCERY no .env; imageLink é fallback
-      mediaId: process.env.MEDIA_ID_GROCERIES,
-      imageLink: "https://scontent.xx.fbcdn.net/mci_ab/uap/asset_manager/id/?ab_b=e&ab_page=AssetManagerID&ab_entry=1530053877871776",
-    }
+    process.env.MEDIA_ID_CATALOGO,          // media_id após upload
+    "https://ateliedasmensagens.com/home/",     // fallback se não tiver media_id
+    "Faça contato conosco! 🛍️"
   );
 }
 
@@ -85,8 +83,8 @@ module.exports = class Conversation {
     switch (message.type) {
 
       // Mensagem de texto livre → envia o menu interativo
-      case "text":
-        await sendWelcomeMenu(
+      case "Atelie":
+          await sendWelcomeMenu(
           message.id,
           senderPhoneNumberId,
           message.senderPhoneNumber,
@@ -94,8 +92,8 @@ module.exports = class Conversation {
         );
         break;
 
-      // Usuário tocou no botão "Shop online"
-      case constants.REPLY_INTERACTIVE_MEDIA_ID: {
+      // Usuário tocou no botão "Atelie"
+      case constants.CTA_OPCAO_1: {
         const resp = await sendInteractiveMediaMessage(
           message.id,
           senderPhoneNumberId,
@@ -105,29 +103,18 @@ module.exports = class Conversation {
         break;
       }
 
-      // Usuário tocou no botão "Get recipe ideas"
-      // case constants.REPLY_MEDIA_CAROUSEL_ID: {
-      //  const resp = await sendMediaCarouselMessage(
-      //    message.id,
-      //    senderPhoneNumberId,
-      //    message.senderPhoneNumber
-      //  );
-      // await markMessageForFollowUp(resp.messages[0].id);
-      // break;
-      // }
       
-      // Usuário tocou no botão "Get recipe ideas"
-      case constants.REPLY_MEDIA_CAROUSEL_ID: {
+      // Usuário tocou no botão "Ver Lançamentos"
+      case constants.CTA_OPCAO_2: {
          await GraphApi.sendTextMessage(
            message.id,
            senderPhoneNumberId,
            message.senderPhoneNumber,
-           "Our in-house chefs have prepared some delicious and fresh summer recipes. Check back soon for more!"
-          );
-      break;
+           "Solicite no https://loja.marykay.com.br/"
+            break;
 }
       // Usuário tocou no botão "Current promo"
-      case constants.REPLY_OFFER_ID: {
+      case constants.CTA_OPCAO_3: {
         const resp = await sendLimitedTimeOfferMessage(
           message.id,
           senderPhoneNumberId,

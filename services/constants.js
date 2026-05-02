@@ -8,17 +8,17 @@
 "use strict";
 
 module.exports = Object.freeze({
-  // Response messages
-  APP_DEFAULT_MESSAGE: "Welcome to Jasper's Market! What can we help you with today?",
-  APP_TRY_ANOTHER_MESSAGE: "Is there anything else we can help you with?",
+  // Mensagens do sistema
+  APP_DEFAULT_MESSAGE:   "Olá! Seja bem-vindo ao Atelie das Mensagens. Como posso te ajudar?",
+  APP_TRY_ANOTHER_MESSAGE: "Posso te ajudar com mais alguma coisa?",
 
-  // CTA texts
-  REPLY_INTERACTIVE_WITH_MEDIA_CTA: "Shop online",
-  REPLY_MEDIA_CARD_CAROUSEL_CTA: "Get recipe ideas",
-  REPLY_OFFER_CTA: "Current promo",
+  // Textos visíveis no WhatsApp (máx 20 caracteres cada)
+  CTA_OPCAO_1: "Acessar Atelie",       // substitua pelo seu
+  CTA_OPCAO_2: "Ver Lançamentos", 
+  CTA_OPCAO_3: "Ver Promoções",
 
-  // Reply Button IDs — max 20 chars (WhatsApp API limit)
-  REPLY_INTERACTIVE_MEDIA_ID: "reply-media",       // era: reply-interactive-with-media (28 chars)
-  REPLY_MEDIA_CAROUSEL_ID:    "reply-carousel",    // era: reply-media-card-carousel (25 chars)
-  REPLY_OFFER_ID:             "reply-offer",       // ok: 11 chars
+  // IDs internos dos botões (máx 20 caracteres, sem espaços)
+  ID_OPCAO_1: "menu-atelie",
+  ID_OPCAO_2: "menu-lancamentos",
+  ID_OPCAO_3: "menu-promo",
 });

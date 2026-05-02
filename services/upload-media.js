@@ -5,8 +5,9 @@
  *   node upload-media.js <caminho-da-imagem> [tipo-mime]
  *
  * Exemplos:
- *   node upload-media.js public/groceries.jpg image/jpeg
- *   node upload-media.js public/strawberries.jpg
+ *   node upload-media.js public/atelie.jpg image/jpeg
+ *   node upload-media.js public/capaMaio.jpg
+ *   node upload-media.js public/promo.jpg 
  *
  * Pré-requisito: npm install form-data node-fetch (ou use node 18+ com fetch nativo)
  */
